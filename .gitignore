@@ -1,0 +1,8 @@
+youtube-webos/node_modules
+/dist
+/cobalt
+/ipk
+/.env
+/.vscode
+*.pyc
+/output/*
