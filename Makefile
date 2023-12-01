@@ -112,6 +112,7 @@ $(WORKDIR)/ipk/content/app/cobalt/content/web/adblock: $(BUILD_WEBOS_YOUTUBE_APP
 	fi
 
 	rm -f $(WORKDIR)/ipk/drm.nfz
+	rm -f $(WORKDIR)/ipk/use_shared_package
 	sed -i 's/YouTube/YouTube Cobalt AdBlock/g' $(WORKDIR)/ipk/appinfo.json
 	jq 'del(.fileSystemType)' < $(WORKDIR)/ipk/appinfo.json > $(WORKDIR)/ipk/appinfo2.json
 	mv $(WORKDIR)/ipk/appinfo2.json $(WORKDIR)/ipk/appinfo.json
@@ -122,6 +123,9 @@ $(WORKDIR)/ipk/content/app/cobalt/content/web/adblock: $(BUILD_WEBOS_YOUTUBE_APP
 	cp assets/extraLargeIcon.png $(WORKDIR)/ipk/$$(jq -r '.extraLargeIcon' < $(WORKDIR)/ipk/appinfo.json)
 	cp assets/playIcon.png $(WORKDIR)/ipk/$$(jq -r '.playIcon' < $(WORKDIR)/ipk/appinfo.json)
 	cp assets/imageForRecents.png $(WORKDIR)/ipk/$$(jq -r '.imageForRecents' < $(WORKDIR)/ipk/appinfo.json)
+	cp assets/imageForRecents.png $(WORKDIR)/ipk/$$(jq -r '.imageForRecents' < $(WORKDIR)/ipk/appinfo.json)
+	test -d $(WORKDIR)/ipk/content/app/cobalt/content/web/youtube || mkdir -p $(WORKDIR)/ipk/content/app/cobalt/content/web/youtube
+	test -f $(WORKDIR)/ipk/content/app/cobalt/content/web/youtube/splash.html || cp assets/youtube-splash.html $(WORKDIR)/ipk/content/app/cobalt/content/web/youtube/splash.html
 
 	echo " --evergreen_lite" >> $(WORKDIR)/ipk/switches
 
@@ -130,7 +134,10 @@ ifneq ("$(PACKAGE_NAME_TARGET)","$(PACKAGE_NAME_OFFICIAL)")
 endif
 
 	libcobalt=$$(find $(WORKDIR)/ipk -name libcobalt.so); \
-	! test -z "$$libcobalt" || (echo "" && echo "--" && echo "File \"libcobalt.so\" is not present in your IPK. This patch is not compatible with your IPK version." && exit 1) && \
+	libcobalt_shared_package=$$(find $(WORKDIR)/ipk -name use_shared_package); \
+	! test -z "$$libcobalt" -a -z "$$libcobalt_shared_package" || (echo "" && echo "--" && echo "File \"libcobalt.so\" is not present in your IPK and your IPK doesn't use a shared package. This patch is not compatible with your IPK version." && exit 1) && \
+	! test -z "$$libcobalt" || libcobalt=$(WORKDIR)/ipk/content/app/cobalt/lib/libcobalt.so && \
+	mkdir -p $$(dirname $$libcobalt) && \
 	cp $(WORKDIR)/cobalt/libcobalt.so $$libcobalt
 	cp -r $(WORKDIR)/cobalt/content $(WORKDIR)/ipk/content/app/cobalt
 	cp -r $(WORKDIR)/cobalt/content $(WORKDIR)/ipk/content/app/cobalt
