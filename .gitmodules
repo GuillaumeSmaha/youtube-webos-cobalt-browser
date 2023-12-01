@@ -1,0 +1,3 @@
+[submodule "youtube-webos"]
+	path = youtube-webos
+	url = https://github.com/GuillaumeSmaha/youtube-webos-cobalt-app.git
