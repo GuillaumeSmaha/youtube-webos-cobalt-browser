@@ -158,8 +158,6 @@ $(PACKAGE_TARGET): $(WORKDIR)/image/usr/palm/applications/$(PACKAGE_NAME_OFFICIA
 	mv $(WORKDIR)/ipk-output/$(PACKAGE_IPK_BUILD) $@
 	@echo "Package can be installed with:"
 	@echo "  ares-install $(PACKAGE_TARGET)"
-	@echo "  or"
-	@echo "  $(MAKE) ares-install"
 
 
 

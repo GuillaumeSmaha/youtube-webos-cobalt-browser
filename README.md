@@ -1,4 +1,4 @@
-# youtube-webos-cobalt
+# youtube-webos-cobalt-browser
 
 YouTube App built with [Cobalt](https://cobalt.googlesource.com/cobalt/) with extended functionalities.
 
@@ -6,6 +6,10 @@ This project is built on top of [youtube-webos](https://github.com/webosbrew/you
 
 Cobalt [only support a subset of HTML tags](https://cobalt.dev/development/reference/supported-features.html),
 youtube-webos had to be reworked to only use `div` tag.
+
+This project doesn't work with all LG TV. It is required that the Offical Youtube Application for your TV is using Cobalt with the library libcobalt.so
+
+This application uses https://github.com/GuillaumeSmaha/youtube-webos-cobalt-app to provide the `*.css` and `*.js` files to inject into Cobalt.
 
 ![Configuration Screen](./screenshots/1_sm.jpg)
 ![Segment Skipped](./screenshots/2_sm.jpg)
@@ -28,8 +32,16 @@ Same as youtube-webos:
 
 - Official YouTube app needs to be uninstalled before installation.
 
+
 ## Installation
-First, build or obtain an IPK. Then install it using one of the following:
+Before installing, you need to patch your Youtube Application: See [Patching your IPK](#patching-your-ipk)
+
+Then, you can install it:
+```sh
+ares-install ./youtube-patched.ipk
+```
+
+ Then install it using one of the following:
 - [Device Manager app](https://github.com/webosbrew/dev-manager-desktop) 
 - [webOS TV CLI tools](https://webostv.developer.lge.com/develop/tools/cli-installation):
   `ares-install youtube...ipk` (for webOS CLI tools configuration see below)
@@ -37,6 +49,8 @@ First, build or obtain an IPK. Then install it using one of the following:
 ## Configuration
 
 Configuration screen can be opened by pressing 🟩 GREEN button on the remote.
+
+On a computer browser, char key `=` can be used on open it.
 
 ### Autostart
 
@@ -89,12 +103,14 @@ sudo apt install jq git patch sed binutils squashfs-tools rename findutils xz-ut
 - Clone the repository
 
 ```sh
-git clone https://github.com/GuillaumeSmaha/youtube-webos-cobalt.git
+git clone https://github.com/GuillaumeSmaha/youtube-webos-cobalt-browser.git
 ```
 
-- Enter the folder and you can patch your YouTube ipk
+- Enter the folder, download dependency and you can patch your YouTube ipk
 ```sh
 cd youtube-webos-cobalt
+
+git submodule update --init
 
 make PACKAGE=./your-tv-youtube.ipk
 ```
@@ -146,19 +162,7 @@ make cobalt-clean
 
 ## Build Youtube-Webos
 
-If you need to update Youtube-webos or if you don't trusted pre-generated version stored in `youtube-webos/output`, you can build them yourself.
-
-```sh
-git clone https://github.com/GuillaumeSmaha/youtube-webos-cobalt.git
-
-cd youtube-webos-cobalt
-
-make npm-docker
-```
-
-After calling `make npm-docker`, files in `youtube-webos/output` will be updated.
-Then, you can call `make PACKAGE=./your-tv-youtube.ipk` to rebuild an IPK with your updated version of Youtube-webos
-
+See directly on repository https://github.com/GuillaumeSmaha/youtube-webos-cobalt-app.git or README.md in `youtube-webos` directory.
 
 ## Development TV setup
 
@@ -185,27 +189,4 @@ ares-setup-device -a webos -i "username=prisoner" -i "privatekey=/path/to/downlo
 
 ```sh
 ares-setup-device -a webos -i "username=root" -i "privatekey=/path/to/id_rsa" -i "passphrase=SSH_KEY_PASSPHRASE" -i "host=TV_IP" -i "port=22"
-```
-
-## Installation
-
-```
-cd youtube-webos
-npm run deploy
-```
-
-## Launching
-
-- The app will be available in the TV's app list or launch it using ares-cli.
-
-```sh
-cd youtube-webos
-npm run launch
-```
-
-To jump immediately into some specific video use:
-
-```sh
-cd youtube-webos
-npm run launch -- -p '{"contentTarget":"v=F8PGWLvn1mQ"}'
 ```
