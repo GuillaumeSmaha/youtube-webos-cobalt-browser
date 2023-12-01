@@ -91,14 +91,14 @@ $(WORKDIR)/cobalt:
 
 
 define webos_youtube_app_rule
-youtube-webos/output/$(1):
+youtube-webos/dist/$(1):
 	$(MAKE) docker-make.npm
-	touch youtube-webos/output/$(1)
+	touch youtube-webos/dist/$(1)
 
 .PRECIOUS: $(WORKDIR)/ipk/content/app/cobalt/content/web/adblock/$(1)
-$(WORKDIR)/ipk/content/app/cobalt/content/web/adblock/$(1): youtube-webos/output/$(1)
+$(WORKDIR)/ipk/content/app/cobalt/content/web/adblock/$(1): youtube-webos/dist/$(1)
 	mkdir -p $(WORKDIR)/ipk/content/app/cobalt/content/web/adblock
-	cp youtube-webos/output/$(1) $(WORKDIR)/ipk/content/app/cobalt/content/web/adblock/$(1)
+	cp youtube-webos/dist/$(1) $(WORKDIR)/ipk/content/app/cobalt/content/web/adblock/$(1)
 endef
 $(foreach file,$(WEBOS_YOUTUBE_APP_FILES),$(eval $(call webos_youtube_app_rule,$(file))))
 
@@ -159,27 +159,9 @@ $(PACKAGE_TARGET): $(WORKDIR)/image/usr/palm/applications/$(PACKAGE_NAME_OFFICIA
 	@echo "Package can be installed with:"
 	@echo "  ares-install $(PACKAGE_TARGET)"
 
-
-
-# Part to build youtube-webos
-# Example of usage
-# make cobalt-bin/23.lts.4-12/libcobalt.so:
-
 .PHONY: docker-make.%
 docker-make.%:
 	docker run --rm -ti -u $$(id -u):$$(id -g) -v $$PWD:/app -w /app node:18 make $*
-
-.PHONY: npm
-npm:
-	( \
-		cd youtube-webos && \
-		npm install && \
-		npm run build -- --env production --optimization-minimize \
-	)
-
-.PHONY: npm-docker
-npm-docker: docker-make.npm
-	@echo ""
 
 # Part to build cobalt
 # Example of usage
