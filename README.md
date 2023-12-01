@@ -13,7 +13,7 @@ This application uses https://github.com/GuillaumeSmaha/youtube-webos-cobalt-app
 
 ![Configuration Screen](./screenshots/1_sm.jpg)
 ![Segment Skipped](./screenshots/2_sm.jpg)
-![Spped Configuration](./screenshots/3_sm.jpg)
+![Speed Configuration](./screenshots/3_sm.jpg)
 
 ## Features
 
@@ -35,11 +35,6 @@ Same as youtube-webos:
 
 ## Installation
 Before installing, you need to patch your Youtube Application: See [Patching your IPK](#patching-your-ipk)
-
-Then, you can install it:
-```sh
-ares-install ./youtube-patched.ipk
-```
 
  Then install it using one of the following:
 - [Device Manager app](https://github.com/webosbrew/dev-manager-desktop) 
