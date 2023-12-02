@@ -1,3 +1,6 @@
 [submodule "youtube-webos"]
 	path = youtube-webos
 	url = https://github.com/GuillaumeSmaha/youtube-webos-cobalt-app.git
+[submodule "ipks-official"]
+	path = ipks-official
+	url = https://github.com/GuillaumeSmaha/youtube-webos-cobalt-ipks.git
