@@ -14,7 +14,7 @@ PACKAGE_COBALT_VERSION?=23.lts.4
 PACKAGE_SB_API_VERSION?=$(shell strings $(WORKDIR)/image/usr/palm/applications/$(PACKAGE_NAME_OFFICIAL)/cobalt | grep sb_api | jq -r '.sb_api_version' | grep -v null || strings $(WORKDIR)/package/usr/palm/applications/$(PACKAGE_NAME_OFFICIAL)/cobalt | grep sb_api | jq -r '.sb_api_version' | grep -v null)
 PACKAGE_VERSION?=$(shell jq -r '.version' < $(WORKDIR)/package/usr/palm/applications/$(PACKAGE_NAME_OFFICIAL)/appinfo.json)
 PACKAGE_IPK_BUILD=$(PACKAGE_NAME_TARGET)_$(PACKAGE_VERSION)_arm.ipk
-OFFICAL_YOUTUBE_IPK?=ipks-official/2023-07-30-youtube.leanback.v4-1.1.7.ipk
+OFFICAL_YOUTUBE_IPK?=ipks-official/webOS-6.3.3-442-SoC-o20n-OLED65G16LA-youtube.leanback.v4-1.1.7.ipk
 
 WORKDIR?=workdir
 WORKDIR_COBALT?=$(WORKDIR)/cobalt-$(BUILD_COBALT_VERSION)
